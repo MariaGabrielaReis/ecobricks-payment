@@ -19,7 +19,7 @@ func (o *OrderRequest) Validate() error {
 	if o.CardHash == "" {
 		return errors.New("card_hash is required")
 	}
-	if o.Total >= 0 {
+	if o.Total <= 0 {
 		return errors.New("total must be greater than 0")
 	}
 	return nil
@@ -31,7 +31,7 @@ func (o *OrderRequest) Process() (*OrderResponse, error) {
 		return nil, err
 	}
 	orderResponse := NewOrderResponse(o.OrderID, "failed")
-	if o.Total > 100.00 {
+	if o.Total >= 100.00 {
 		orderResponse.Status = "paid"
 	}
 	return orderResponse, nil
